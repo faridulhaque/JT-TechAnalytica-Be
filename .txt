@@ -1,0 +1,9 @@
+
+
+
+
+
+npm run typeorm:generate-migration --fm
+npm run typeorm:run-migrations
+
+
