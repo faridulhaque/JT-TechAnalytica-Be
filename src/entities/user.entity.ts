@@ -2,8 +2,10 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { TaskEntity } from './task.entity';
 
 const ROlE = {
   admin: 'admin',
@@ -22,6 +24,12 @@ export class UserEntity {
 
   @Column({ default: ROlE.employee })
   role!: string;
+
+  @OneToMany(() => TaskEntity, (task) => task.assignedUser)
+  assignedTasks!: TaskEntity[];
+
+  @OneToMany(() => TaskEntity, (task) => task.assignedBy)
+  createdTasks!: TaskEntity[];
 
   @CreateDateColumn()
   createdAt!: Date;
