@@ -3,7 +3,7 @@
 
 
 
-npm run typeorm:generate-migration --fm
+npm run typeorm:generate-migration --user
 npm run typeorm:run-migrations
 
 
