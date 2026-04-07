@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -60,6 +61,19 @@ export class TaskController {
       request?.user?.id,
       taskId,
       body.status,
+    );
+  }
+
+  @UseGuards(AdminAuthGuard)
+  @Delete('/:taskId')
+  @SetMetadata('statusCode', 201)
+  async deleteTask(
+    @Request() request: RequestWithUser,
+    @Param('taskId') taskId: string,
+  ) {
+    return await this.taskService.deleteTask(
+      request?.user?.id,
+      taskId,
     );
   }
 }

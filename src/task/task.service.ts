@@ -191,7 +191,6 @@ export class TaskService {
         { status: status as TaskStatus },
       );
 
-
       const statusLog = queryRunner.manager.create(AuditLogEntity, {
         actor: { id: employeeId },
         action: AUDIT_ACTION.STATUS_CHANGE,
@@ -215,6 +214,47 @@ export class TaskService {
 
       throw new HttpException(
         error?.message || 'Failed to update task status',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    } finally {
+      await queryRunner.release();
+    }
+  }
+
+  async deleteTask(adminId: string, taskId: string) {
+    const queryRunner = this.dataSource.createQueryRunner();
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+
+    try {
+      const softDeleted = await queryRunner.manager.update(
+        TaskEntity,
+        { id: taskId },
+        { isDeleted: true },
+      );
+
+      const statusLog = queryRunner.manager.create(AuditLogEntity, {
+        actor: { id: adminId },
+        action: AUDIT_ACTION.DELETE,
+        targetTask: { id: taskId },
+      });
+
+      await queryRunner.manager.save(statusLog);
+
+      await queryRunner.commitTransaction();
+
+      return softDeleted;
+    } catch (error: any) {
+      await queryRunner.rollbackTransaction();
+
+      this.logger.error(`Error deleting task  : ${error?.message}`);
+
+      if (error instanceof HttpException) {
+        throw error;
+      }
+
+      throw new HttpException(
+        error?.message || 'Failed to soft delete task ',
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     } finally {

@@ -27,6 +27,9 @@ export class TaskEntity {
   @Column({ type: 'text', nullable: true })
   description!: string;
 
+  @Column({ default: false })
+  isDeleted!: boolean;
+
   @Column({
     type: 'varchar',
     default: TASK_STATUS.PENDING,
