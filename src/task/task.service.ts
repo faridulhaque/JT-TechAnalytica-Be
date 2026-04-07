@@ -289,4 +289,32 @@ export class TaskService {
       );
     }
   }
+
+  async getTaskById(taskId: string) {
+  try {
+    this.logger.log(`Fetching task by id: ${taskId}`);
+
+    const task = await this.taskRepository.findOne({
+      where: { id: taskId, isDeleted: false },
+      relations: ['assignedUser', 'assignedBy'],
+    });
+
+    if (!task) {
+      throw new HttpException('Task not found', HttpStatus.NOT_FOUND);
+    }
+
+    return task;
+  } catch (error: any) {
+    this.logger.error(`Error fetching task: ${error?.message}`);
+
+    if (error instanceof HttpException) {
+      throw error;
+    }
+
+    throw new HttpException(
+      error?.message || 'Failed to fetch task',
+      HttpStatus.INTERNAL_SERVER_ERROR,
+    );
+  }
+}
 }

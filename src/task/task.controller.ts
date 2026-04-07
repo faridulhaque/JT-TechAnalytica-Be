@@ -83,4 +83,11 @@ export class TaskController {
       request?.user?.role,
     );
   }
+
+  @UseGuards(AdminAuthGuard)
+  @Get('/:taskId')
+  @SetMetadata('statusCode', 201)
+  async getTask(@Param('taskId') taskId: string) {
+   return await this.taskService.getTaskById(taskId)
+  }
 }

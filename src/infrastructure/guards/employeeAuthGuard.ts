@@ -31,6 +31,11 @@ export class EmployeeAuthGuard implements CanActivate {
           id,
           role,
         },
+        select: {
+          id: true,
+          role: true,
+          username: true,
+        }
       });
 
       if (!user)
