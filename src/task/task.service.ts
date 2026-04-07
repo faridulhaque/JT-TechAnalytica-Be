@@ -261,4 +261,32 @@ export class TaskService {
       await queryRunner.release();
     }
   }
+
+  async getTasks(userId: string, role: string) {
+    try {
+      this.logger.log(`Fetching tasks for user ${userId} with role ${role}`);
+
+      const qb = this.dataSource
+        .getRepository(TaskEntity)
+        .createQueryBuilder('task')
+        .leftJoinAndSelect('task.assignedUser', 'assignedUser')
+        .leftJoinAndSelect('task.assignedBy', 'assignedBy')
+        .where('task.isDeleted = :isDeleted', { isDeleted: false });
+
+      if (role === 'employee') {
+        qb.andWhere('assignedUser.id = :userId', { userId });
+      }
+
+      const tasks = await qb.getMany();
+
+      return tasks;
+    } catch (error: any) {
+      this.logger.error(`Error fetching tasks: ${error?.message}`);
+
+      throw new HttpException(
+        error?.message || 'Failed to fetch tasks',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
 }

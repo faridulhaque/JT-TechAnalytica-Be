@@ -71,9 +71,16 @@ export class TaskController {
     @Request() request: RequestWithUser,
     @Param('taskId') taskId: string,
   ) {
-    return await this.taskService.deleteTask(
+    return await this.taskService.deleteTask(request?.user?.id, taskId);
+  }
+
+  @UseGuards(EmployeeAuthGuard)
+  @Get('')
+  @SetMetadata('statusCode', 200)
+  async getTasks(@Request() request: RequestWithUser) {
+    return await this.taskService.getTasks(
       request?.user?.id,
-      taskId,
+      request?.user?.role,
     );
   }
 }
