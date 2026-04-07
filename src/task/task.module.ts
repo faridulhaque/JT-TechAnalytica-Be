@@ -7,12 +7,13 @@ import { TLoggers } from '@/infrastructure/types/enums';
 import { EnvironmentConfigModule, ServiceLevelLogger } from '@/infrastructure';
 import { TaskEntity } from '@/entities/task.entity';
 import { JwtModule } from '@nestjs/jwt';
+import { AuditLogEntity } from '@/entities/audit-log.entity';
 
 @Module({
   imports: [
     EnvironmentConfigModule,
     JwtModule,
-    TypeOrmModule.forFeature([UserEntity, TaskEntity]),
+    TypeOrmModule.forFeature([UserEntity, TaskEntity, AuditLogEntity]),
   ],
 
   providers: [
