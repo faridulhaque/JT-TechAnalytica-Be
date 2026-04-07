@@ -31,6 +31,6 @@ export class UserEntity {
   @OneToMany(() => TaskEntity, (task) => task.assignedBy)
   createdTasks!: TaskEntity[];
 
-  @CreateDateColumn()
+  @CreateDateColumn({ type: 'timestamptz' })
   createdAt!: Date;
 }
