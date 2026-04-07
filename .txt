@@ -3,7 +3,7 @@
 
 
 
-npm run typeorm:generate-migration --user
+npm run typeorm:generate-migration --task,audit
 npm run typeorm:run-migrations
 
 
