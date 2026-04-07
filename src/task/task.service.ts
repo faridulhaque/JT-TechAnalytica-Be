@@ -1,5 +1,5 @@
 import { AUDIT_ACTION, AuditLogEntity } from '@/entities/audit-log.entity';
-import { TaskEntity } from '@/entities/task.entity';
+import { TaskEntity, TaskStatus } from '@/entities/task.entity';
 import { UserEntity } from '@/entities/user.entity';
 import { EnvironmentConfigService, ServiceLevelLogger } from '@/infrastructure';
 import { CreateTaskDto } from '@/infrastructure/dto/createTaskDto';
@@ -172,6 +172,49 @@ export class TaskService {
 
       throw new HttpException(
         error?.message || 'Failed to update task',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    } finally {
+      await queryRunner.release();
+    }
+  }
+
+  async updateTaskStatus(employeeId: string, taskId: string, status: string) {
+    const queryRunner = this.dataSource.createQueryRunner();
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+
+    try {
+      const updatedTask = await queryRunner.manager.update(
+        TaskEntity,
+        { id: taskId },
+        { status: status as TaskStatus },
+      );
+
+
+      const statusLog = queryRunner.manager.create(AuditLogEntity, {
+        actor: { id: employeeId },
+        action: AUDIT_ACTION.STATUS_CHANGE,
+        targetTask: { id: taskId },
+        data: { data: 'n/a' },
+      });
+
+      await queryRunner.manager.save(statusLog);
+
+      await queryRunner.commitTransaction();
+
+      return updatedTask;
+    } catch (error: any) {
+      await queryRunner.rollbackTransaction();
+
+      this.logger.error(`Error updating task status: ${error?.message}`);
+
+      if (error instanceof HttpException) {
+        throw error;
+      }
+
+      throw new HttpException(
+        error?.message || 'Failed to update task status',
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     } finally {

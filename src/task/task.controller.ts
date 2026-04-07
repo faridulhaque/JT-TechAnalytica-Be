@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Param,
+  Patch,
   Post,
   Put,
   Request,
@@ -13,6 +14,8 @@ import { TaskService } from './task.service';
 import { AdminAuthGuard } from '@/infrastructure/guards/adminAuthGuard';
 import type { RequestWithUser } from '@/infrastructure/types/types';
 import { CreateTaskDto } from '@/infrastructure/dto/createTaskDto';
+import { EmployeeAuthGuard } from '@/infrastructure/guards/employeeAuthGuard';
+import { TaskStatus } from '@/entities/task.entity';
 
 @Controller('task')
 export class TaskController {
@@ -43,5 +46,20 @@ export class TaskController {
     @Param('taskId') taskId: string,
   ) {
     return await this.taskService.updateTask(request?.user?.id, taskId, body);
+  }
+
+  @UseGuards(EmployeeAuthGuard)
+  @Patch('/:taskId/status')
+  @SetMetadata('statusCode', 201)
+  async updateTaskStatus(
+    @Request() request: RequestWithUser,
+    @Body() body: { status: TaskStatus },
+    @Param('taskId') taskId: string,
+  ) {
+    return await this.taskService.updateTaskStatus(
+      request?.user?.id,
+      taskId,
+      body.status,
+    );
   }
 }
