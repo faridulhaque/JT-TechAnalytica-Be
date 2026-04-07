@@ -1,7 +1,7 @@
 import { AuditLogEntity } from '@/entities/audit-log.entity';
 import { ServiceLevelLogger } from '@/infrastructure';
 import { TLoggers } from '@/infrastructure/types/enums';
-import { Inject, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -13,4 +13,24 @@ export class AuditLogService {
     @InjectRepository(AuditLogEntity)
     private readonly auditLogRepository: Repository<AuditLogEntity>,
   ) {}
+
+  async getAllAuditLogs() {
+    try {
+      this.logger.log('Fetching all audit logs');
+
+      const logs = await this.auditLogRepository.find({
+        relations: ['actor', 'targetTask'],
+        order: { createdAt: 'DESC' },
+      });
+
+      return logs;
+    } catch (error: any) {
+      this.logger.error(`Error fetching audit logs: ${error?.message}`);
+
+      throw new HttpException(
+        error?.message || 'Failed to fetch audit logs',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
 }
