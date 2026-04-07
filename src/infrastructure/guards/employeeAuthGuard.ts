@@ -12,7 +12,7 @@ import { Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
-export class AuthGuard implements CanActivate {
+export class EmployeeAuthGuard implements CanActivate {
   constructor(
     private readonly environmentConfigService: EnvironmentConfigService,
     private readonly jwtService: JwtService,
