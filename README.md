@@ -10,7 +10,6 @@ A simple task management app where users are assigned tasks by an admin, can upd
 
 ## 🧰 Tech Stack
 
-
 ### Frontend
 - Next.js
 - TypeScript
@@ -23,27 +22,67 @@ A simple task management app where users are assigned tasks by an admin, can upd
 
 ## 🧑‍💻 Test Instructions
 
-1. **Clone the repository**
+1. **Clone the BACKEND repository, navigate to the project folder & use docker**
    ```bash
    git clone https://github.com/faridulhaque/JT-TechAnalytica-Be
+
    cd JT-TechAnalytica-Be
+
    docker compose up --build
    
-2. Use these credentials for normal user login
+2. **Use these credentials for normal user login**
     - Username: user1
     - Password: pass1234
 
-3. Use these credentials for admin login
+3. **Use these credentials for admin login**
     - Username: admin
     - Password: pass1234
 
+**Note** : `docker-compose up --build` must be run in the backend repository.
 
-🧑‍🤝‍🧑 Author
 
-Faridul Haque Murshed
-https://github.com/faridulhaque
+# AI used: ChatGPT
+## Purpose: To speed up code development
+
+**UI Refinement**
+
+Prompt:
+    ```Refine the UI  
+        - Only update the JSX  
+        - Use Tailwind CSS  
+        - Do not touch logic  
+        - Keep consistency in padding, margin, and colors across the project  
+        - Maintain responsiveness  
+    
+**DTO, Entities, and Service Functions**
+
+Sample Prompt 1:
+
+    ```Create a DTO with: title, description, employeeId. All required except description  
+
+Sample Prompt 2:
+
+    ```Create TaskEntity with:  
+        - id (uuid)  
+        - title  
+        - description  
+        - status (pending, done, processing; default: pending)  
+        - isDeleted (default: false)  
+        - assignedBy (ManyToOne with User)  
+        - assignedTo (ManyToOne with User)  
+
+Sample Prompt 3:
+
+    ```Refine this function by adding:  
+        - try/catch  
+        - logger  
+        - HttpException  
+        - HttpStatus 
+        - Don't touch the logic 
+
 
 **Frontend Repository:** https://github.com/faridulhaque/JT-TechAnalytica-Fe
 
+🧑‍🤝‍🧑 Author
 
-
+    Faridul Haque Murshed https://github.com/faridulhaque
