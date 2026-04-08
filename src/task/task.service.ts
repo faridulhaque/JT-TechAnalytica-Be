@@ -97,6 +97,9 @@ export class TaskService {
   }
 
   async updateTask(adminId: string, taskId: string, dto: CreateTaskDto) {
+    console.log('adminId', adminId)
+    console.log("taskId", taskId)
+    console.log('dto', CreateTaskDto)
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
     await queryRunner.startTransaction();
