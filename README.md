@@ -47,22 +47,23 @@ A simple task management app where users are assigned tasks by an admin, can upd
 **UI Refinement**
 
 Prompt:
-    ```Refine the UI  
+
+    `Refine the UI  
         - Only update the JSX  
         - Use Tailwind CSS  
         - Do not touch logic  
         - Keep consistency in padding, margin, and colors across the project  
         - Maintain responsiveness  
-    
+    `
 **DTO, Entities, and Service Functions**
 
 Sample Prompt 1:
 
-    ```Create a DTO with: title, description, employeeId. All required except description  
+    `Create a DTO with: title, description, employeeId. All required except description`  
 
 Sample Prompt 2:
 
-    ```Create TaskEntity with:  
+    `Create TaskEntity with:  
         - id (uuid)  
         - title  
         - description  
@@ -70,16 +71,17 @@ Sample Prompt 2:
         - isDeleted (default: false)  
         - assignedBy (ManyToOne with User)  
         - assignedTo (ManyToOne with User)  
+    `
 
 Sample Prompt 3:
 
-    ```Refine this function by adding:  
+    `Refine this function by adding:  
         - try/catch  
         - logger  
         - HttpException  
         - HttpStatus 
         - Don't touch the logic 
-
+    `
 
 **Frontend Repository:** https://github.com/faridulhaque/JT-TechAnalytica-Fe
 
