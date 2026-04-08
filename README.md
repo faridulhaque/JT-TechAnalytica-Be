@@ -86,5 +86,4 @@ Sample Prompt 3:
 **Frontend Repository:** https://github.com/faridulhaque/JT-TechAnalytica-Fe
 
 🧑‍🤝‍🧑 Author
-
     Faridul Haque Murshed https://github.com/faridulhaque
