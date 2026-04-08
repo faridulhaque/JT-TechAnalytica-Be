@@ -3,7 +3,10 @@
 
 
 
-npm run typeorm:generate-migration --fm
+npm run typeorm:generate-migration --task-delete
 npm run typeorm:run-migrations
 
 
+docker compose exec backend npm run typeorm:generate-migration --init
+
+docker compose exec backend npm run typeorm:run-migrations

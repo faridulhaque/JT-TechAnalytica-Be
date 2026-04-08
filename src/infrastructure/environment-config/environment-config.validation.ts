@@ -14,8 +14,6 @@ class EnvironmentVariables {
   @IsString()
   JWT_EXPIRY!: string;
 
-  @IsString()
-  X_API_KEY!: string;
 }
 
 export function validate(config: Record<string, unknown>) {
