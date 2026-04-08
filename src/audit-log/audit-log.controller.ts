@@ -15,7 +15,7 @@ export class AuditLogController {
   @UseGuards(AdminAuthGuard)
   @Get()
   @SetMetadata('statusCode', 200)
-  async getTasks(@Request() request: RequestWithUser) {
+  async getAuditLogs(@Request() request: RequestWithUser) {
     return await this.auditLogService.getAllAuditLogs();
   }
 }

@@ -97,9 +97,9 @@ export class TaskService {
   }
 
   async updateTask(adminId: string, taskId: string, dto: CreateTaskDto) {
-    console.log('adminId', adminId)
-    console.log("taskId", taskId)
-    console.log('dto', CreateTaskDto)
+    console.log('adminId', adminId);
+    console.log('taskId', taskId);
+    console.log('dto', CreateTaskDto);
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
     await queryRunner.startTransaction();
@@ -274,12 +274,12 @@ export class TaskService {
         .createQueryBuilder('task')
         .leftJoinAndSelect('task.assignedUser', 'assignedUser')
         .leftJoinAndSelect('task.assignedBy', 'assignedBy')
-        .where('task.isDeleted = :isDeleted', { isDeleted: false });
+        .where('task.isDeleted = :isDeleted', { isDeleted: false })
+        .orderBy('task.createdAt', 'DESC');
 
       if (role === 'employee') {
         qb.andWhere('assignedUser.id = :userId', { userId });
       }
-
       const tasks = await qb.getMany();
 
       return tasks;
@@ -294,30 +294,30 @@ export class TaskService {
   }
 
   async getTaskById(taskId: string) {
-  try {
-    this.logger.log(`Fetching task by id: ${taskId}`);
+    try {
+      this.logger.log(`Fetching task by id: ${taskId}`);
 
-    const task = await this.taskRepository.findOne({
-      where: { id: taskId, isDeleted: false },
-      relations: ['assignedUser', 'assignedBy'],
-    });
+      const task = await this.taskRepository.findOne({
+        where: { id: taskId, isDeleted: false },
+        relations: ['assignedUser', 'assignedBy'],
+      });
 
-    if (!task) {
-      throw new HttpException('Task not found', HttpStatus.NOT_FOUND);
+      if (!task) {
+        throw new HttpException('Task not found', HttpStatus.NOT_FOUND);
+      }
+
+      return task;
+    } catch (error: any) {
+      this.logger.error(`Error fetching task: ${error?.message}`);
+
+      if (error instanceof HttpException) {
+        throw error;
+      }
+
+      throw new HttpException(
+        error?.message || 'Failed to fetch task',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
-
-    return task;
-  } catch (error: any) {
-    this.logger.error(`Error fetching task: ${error?.message}`);
-
-    if (error instanceof HttpException) {
-      throw error;
-    }
-
-    throw new HttpException(
-      error?.message || 'Failed to fetch task',
-      HttpStatus.INTERNAL_SERVER_ERROR,
-    );
   }
-}
 }
