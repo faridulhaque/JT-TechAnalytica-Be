@@ -1,6 +1,4 @@
 # 🗂️ Task Management App
-<!-- ## 🎥 Demo
-[![Watch the demo](public/taskflow-ss.png)](https://www.loom.com/share/2cf921599b7c4f37af09c2c34bbfd582) -->
 
 ## 🚀 Overview
 
