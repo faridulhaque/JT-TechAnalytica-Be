@@ -21,7 +21,7 @@ A simple task management app where users are assigned tasks by an admin, can upd
 
 ## 🧑‍💻 Test Instructions
 
-1. **Clone the BACKEND repository, navigate to the project folder & use Docker**
+1. **Clone the BACKEND repository**
    ```bash
    git clone https://github.com/faridulhaque/JT-TechAnalytica-Be.git
 
