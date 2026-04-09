@@ -44,7 +44,7 @@ A simple task management app where users are assigned tasks by an admin, can upd
     - Username: admin
     - Password: pass1234
 
-**Note** : `docker-compose up` must be run in the backend repository.
+**Note** : `docker compose up` must be run in the backend repository.
 
 
 
