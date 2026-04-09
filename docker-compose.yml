@@ -6,11 +6,9 @@ services:
     environment:
       NODE_ENV: local
       PORT: 8080
-      DB_CONNECTION_URL: postgres://postgres:postgres@db:5432/app
+      DB_CONNECTION_URL: postgresql://neondb_owner:npg_rkwf2MUbm0HG@ep-lucky-cake-a1165spu-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require
       JWT_SECRET: demo_secret
       JWT_EXPIRY: 1y
-    depends_on:
-      - db
 
   frontend:
     image: faridmurshed9/jt-tech-analytica-fe
@@ -20,18 +18,3 @@ services:
       NEXT_PUBLIC_BASE_URL: http://localhost:8080
     depends_on:
       - backend
-
-  db:
-    image: postgres:17
-    restart: always
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: app
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-
-volumes:
-  postgres_data:
